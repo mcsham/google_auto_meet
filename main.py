@@ -12,14 +12,16 @@ async def main(_loop):
     url = None
     if input('Created new meet links? (y/n)') == 'n':
         url = input('Enter meet url: ')
-
+    count_users = -1
+    if input('Join an unlimited number of users (y/n)') == 'n':
+        count_users = int(input('Count users: '))
     gm = GoogleMeet(
         simple_log=simple_log,
         login=os.getenv('LOGIN'),
         password=os.getenv('PASSWORD'),
     )
     await gm.init_browser(os.getenv('BROWSER_NAME', 'Chrome'), False)
-    await gm.open_meet(url)
+    await gm.open_meet(url, count_users)
 
 
 if __name__ == '__main__':
