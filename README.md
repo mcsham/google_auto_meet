@@ -8,8 +8,8 @@ The script creates meetings in Google and automatically joins all participants w
 ---
 ## Settings
 The main settings are in the .env file:
-* LOGIN=**< your google login >**
-* PASSWORD=**< your google password >**
+* LOGIN=**"your google login"**
+* PASSWORD=**"your google password"**
 * BROWSER_NAME=Chrome  
 
 BROWSER_NAME:
