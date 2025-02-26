@@ -46,6 +46,16 @@ class GoogleMeet(Browser):
         with open(self.file_name, 'w') as f:
             f.write('\n'.join(self.peoples))
 
+    async def _find_and_close_copy_dialog(self) -> None:
+        """
+        Find and close the copy dialog.
+        :return: None
+        """
+        close_button = self._page.locator('div[role="dialog"] > div > button', has_text='close')
+        if await close_button.is_visible():
+            await close_button.click()
+            await sleep(0.5)
+
     async def _wait_new_people(self) -> None:
         """
         Wait until everyone in the meeting has joined.
@@ -169,6 +179,7 @@ class GoogleMeet(Browser):
         pyperclip.copy(self._page.url)
         logger.info(f'Meeting url: {self._page.url};')
         logger.info(f'The meeting url is copied to the keyboard buffer;')
+        await self._find_and_close_copy_dialog()
         await self._wait_new_people()
 
     def __init__(self, **kwargs) -> None:
