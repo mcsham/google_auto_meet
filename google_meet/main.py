@@ -150,7 +150,7 @@ class GoogleMeet(Browser):
         await self.goto('https://meet.google.com')
         await self._login()
         await self._page.locator('button[autofocus="autofocus"]').click()
-        await self._page.locator('div[data-menu-uid="ucc-0"] > ul > li[role="menuitem"]').nth(-2).click()
+        await self._page.locator('div[data-menu-uid] > ul > li[role="menuitem"][aria-label]').nth(-2).click()
 
     async def open_exists_url(self, url) -> None:
         """
