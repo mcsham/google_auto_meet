@@ -4,6 +4,7 @@ from datetime import datetime
 
 import pyperclip
 from loguru import logger
+from notifypy import Notify
 
 from browser import Browser
 
@@ -15,6 +16,12 @@ logger.add(os.path.join(log_path, "file_{time}.log"), format="{time} {level} {me
 
 
 class GoogleMeet(Browser):
+
+    async def _build_toast(self, title: str, mess: str):
+        notification = Notify()
+        notification.title = title
+        notification.message = mess
+        notification.send()
 
     async def _auto_stay(self) -> None:
         """
@@ -177,8 +184,12 @@ class GoogleMeet(Browser):
         await self._off_microphone_and_camera()
         await self._open_people_menu()
         pyperclip.copy(self._page.url)
-        logger.info(f'Meeting url: {self._page.url};')
-        logger.info(f'The meeting url is copied to the keyboard buffer;')
+        messages = [
+            f'Meeting url: {self._page.url};',
+            f'The meeting url is copied to the keyboard buffer;'
+        ]
+        [logger.info(i) for i in messages]
+        await self._build_toast('Auto Google Meet', messages[-1])
         await self._find_and_close_copy_dialog()
         await self._wait_new_people()
 
@@ -193,4 +204,3 @@ class GoogleMeet(Browser):
         self.file_name = os.path.join(path, datetime.now().strftime("%Y_%m_%d_%H_%M_%S.txt"))
         if self.simple_log:
             os.makedirs(path, exist_ok=True)
-
