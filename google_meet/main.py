@@ -15,13 +15,14 @@ if not os.path.exists(log_path):
 logger.add(os.path.join(log_path, "file_{time}.log"), format="{time} {level} {message}", level="INFO")
 
 
-class GoogleMeet(Browser):
+async def send_toast(title: str, mess: str):
+    notification = Notify()
+    notification.title = title
+    notification.message = mess
+    notification.send()
 
-    async def _build_toast(self, title: str, mess: str):
-        notification = Notify()
-        notification.title = title
-        notification.message = mess
-        notification.send()
+
+class GoogleMeet(Browser):
 
     async def _auto_stay(self) -> None:
         """
@@ -189,7 +190,7 @@ class GoogleMeet(Browser):
             f'The meeting url is copied to the keyboard buffer;'
         ]
         [logger.info(i) for i in messages]
-        await self._build_toast('Auto Google Meet', messages[-1])
+        await send_toast('Auto Google Meet', messages[-1])
         await self._find_and_close_copy_dialog()
         await self._wait_new_people()
 
