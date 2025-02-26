@@ -21,7 +21,7 @@ class Browser:
     async def init_browser(self, name='Chrome', headless=False, proxy: dict = None) -> None:
         """
         Initialise the browser.
-        :param name: Chrome, Firefox
+        :param name: Chrome, Firefox or Webkit
         :param headless: True or False
         :param proxy: example {'server': 'socks5://127.0.0.1:1234',},
         :return: None
