@@ -179,6 +179,7 @@ class GoogleMeet(Browser):
         self._user_login = kwargs.get('login')
         self._user_password = kwargs.get('password')
         path = os.path.join(os.getcwd(), 'mini_logs')
-        if self.simple_log and os.path.exists(path):
-            os.makedirs(path)
         self.file_name = os.path.join(path, datetime.now().strftime("%Y_%m_%d_%H_%M_%S.txt"))
+        if self.simple_log:
+            os.makedirs(path, exist_ok=True)
+
