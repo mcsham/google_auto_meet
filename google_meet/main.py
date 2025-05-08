@@ -126,9 +126,9 @@ class GoogleMeet(Browser):
             return False
         await sing_in.click()
         await sleep(3)
-        login_menu = self._page.locator(f'div[data-identifier="{self._user_login}"]')
+        login_menu = self._page.locator(f'div[data-email="{self._user_login}"]')
         if await login_menu.is_visible():
-            await login_menu.click()
+            await self._page.locator('[data-is-touch-wrapper="true"]').click()
         else:
             input_field = self._page.locator('input[aria-label="Email or phone"]')
             await input_field.press_sequentially(self._user_login)
@@ -151,7 +151,7 @@ class GoogleMeet(Browser):
         await self.goto('https://meet.google.com')
         await self._login()
         await self._page.locator('button[autofocus="autofocus"]').click()
-        await self._page.locator('div[data-menu-uid] > ul > li[role="menuitem"][aria-label]').nth(-2).click()
+        await self._page.locator('ul > li[role="menuitem"][aria-label]').nth(-2).click()
 
     async def open_exists_url(self, url) -> None:
         """
